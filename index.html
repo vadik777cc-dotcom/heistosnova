@@ -988,16 +988,7 @@
         <!-- Верхняя часть - изображение 16:9 -->
         <div class="modal-image-section">
           <img id="modal-image" src="" alt="Превью курса">
-          <button type="button" class="carousel-nav prev" id="carousel-prev" aria-label="Предыдущий слайд">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M15 18l-6-6 6-6"/>
-            </svg>
-          </button>
-          <button type="button" class="carousel-nav next" id="carousel-next" aria-label="Следующий слайд">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 18l6-6-6-6"/>
-            </svg>
-          </button>
+          
           <div class="carousel-dots" id="carousel-dots">
             <!-- Точки будут добавлены через JS -->
           </div>
@@ -1315,8 +1306,11 @@
           { icon: '📈', text: 'Аналитика данных с ИИ' }
         ],
         duration: 'Foundation',
-        images: ['zn1.png', 'zn2.png', 'zn3.png', 'zn4.png', 'zn5.png', 'zn6.png'],
-        
+        images: [
+                'zn1.png', 'zn2.png', 'zn3.png', 'zn4.png', 'zn5.png', 'zn6.png'
+                
+            ],
+
       },
       vibe: {
         label: 'Vibecoding',
@@ -1353,8 +1347,6 @@
     const modalFeatures = document.getElementById('modal-features');
     const modalDuration = document.getElementById('modal-duration');
     const carouselDotsContainer = document.getElementById('carousel-dots');
-    const carouselPrev = document.getElementById('carousel-prev');
-    const carouselNext = document.getElementById('carousel-next');
     const modalCTA = document.getElementById('modal-cta');
     const modalImage = document.getElementById('modal-image');
 
@@ -1502,23 +1494,7 @@
       }
     });
 
-    carouselPrev.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (!activeCourse) return;
-      const data = courses[activeCourse];
-      currentSlide = (currentSlide - 1 + data.images.length) % data.images.length;
-      updateSlide(data);
-      startAutoSlide(data);
-    });
 
-    carouselNext.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (!activeCourse) return;
-      const data = courses[activeCourse];
-      currentSlide = (currentSlide + 1) % data.images.length;
-      updateSlide(data);
-      startAutoSlide(data);
-    });
 
     modalImage.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1568,4 +1544,3 @@
   </script>
 </body>
 </html>
-
