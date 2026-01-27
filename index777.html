@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HEIST AI — Fintech Future Courses</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      color: #0a0f1a;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background:
+        linear-gradient(180deg, #f8fafc 0%, #eef2ff 40%, #e2e8f0 100%),
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.9) 0%, rgba(246, 247, 251, 0.97) 45%, rgba(232, 237, 247, 0.85) 100%);
+      color: #0f172a;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    h1, h2 {
+      letter-spacing: -0.06em;
+      text-transform: uppercase;
+      color: #0a0f1a;
+      font-weight: 600;
+    }
+    .hero-title {
+      font-size: clamp(2.4rem, 8vw, 5.5rem) !important;
+      white-space: normal !important;
+      word-break: break-word !important;
+      line-height: 1.1 !important;
+      max-width: 100% !important;
+    }
+    
+    h3 {
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+      color: #0a0f1a;
+      font-weight: 600;
+    }
+    .mono-label {
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #4b5563;
+      font-weight: 500;
+    }
+    .gradient {
+      position: fixed;
+      width: 520px;
+      height: 520px;
+      filter: blur(150px);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .gradient-indigo {
+      top: -120px;
+      left: -120px;
+      background: #6366F1;
+      opacity: 0.15;
+    }
+    .gradient-burgundy {
+      bottom: -120px;
+      right: -120px;
+      background: #881337;
+      opacity: 0.10;
+    }
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(90deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+      background-size: 120px 120px;
+      opacity: 0.04;
+      mix-blend-mode: soft-light;
+      z-index: 4;
+      pointer-events: none;
+    }
+    .noise-overlay {
+      position: fixed;
+      inset: 0;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIj48ZmlsdGVyIGlkPSJuIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9IjAuNzUiIHN0aXRjaFRpbGVzPSJzdGl0Y2giIHR5cGU9ImZyYWN0YWxOb2lzZSIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoNDAwdjQwMEgweiIgZmlsdGVyPSJ1cmwoI24pIiBmaWxsPSIjRkZGIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz48L3N2Zz4=');
+      background-size: 320px 320px;
+      opacity: 0.05;
+      mix-blend-mode: overlay;
+      z-index: 50;
+      pointer-events: none;
+    }
+    .glass-panel {
+      backdrop-filter: blur(32px) saturate(180%);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.04),
+        0 25px 80px -35px rgba(99, 102, 241, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+    header nav a {
+      transition: color 0.3s ease;
+    }
+    .hero-section {
+      padding-top: clamp(7rem, 12vh, 10rem);
+      padding-bottom: clamp(3rem, 7vh, 6rem);
+    }
+    .hero-layout {
+      display: flex;
+      align-items: flex-start;
+      gap: clamp(2rem, 4vw, 4rem);
+    }
+    .hero-canvas-wrap {
+      position: relative;
+      width: 100%;
+      height: clamp(420px, 58vh, 640px);
+      overflow: visible;
+      pointer-events: auto;
+      z-index: 1;
+      margin-top: 1rem;
+      transform: translateX(135px);
+      margin-left: auto;
+    }
+    #hero-3d {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+    .hero-pill {
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 0.6rem !important;
+      letter-spacing: 0.25em !important;
+      text-transform: uppercase;
+      padding: 0.5rem 0.9rem !important;
+      border-radius: 999px;
+      border: none;
+      background: rgba(15, 23, 42, 0.04);
+      backdrop-filter: blur(14px);
+      color: #0F172A;
+      opacity: 0.55;
+      pointer-events: none;
+      white-space: nowrap !important;
+    }
+    .course-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 1.5rem;
+      padding: 2.25rem;
+      border-radius: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: linear-gradient(165deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+      backdrop-filter: blur(48px) saturate(200%);
+      cursor: pointer;
+      overflow: hidden;
+      min-height: 320px;
+      transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      box-shadow: 
+        0 10px 30px -10px rgba(0,0,0,0.1),
+        0 30px 60px -15px var(--accent-glow, rgba(99,102,241,0.25)),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.15),
+        inset 0 -15px 30px -10px var(--accent-glow, rgba(99,102,241,0.15));
+    }
+    .course-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 20%, var(--accent-color, rgba(99,102,241,0.35)), transparent 70%);
+      opacity: 0.45;
+      z-index: 0;
+    }
+    .course-card::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -80px;
+      width: 85%;
+      height: 220px;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, var(--accent-glow, rgba(99,102,241,0.4)) 0%, transparent 70%);
+      opacity: 0.7;
+      filter: blur(60px);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .course-card:hover {
+      transform: translateY(-10px) scale(1.01);
+      border-color: rgba(255, 255, 255, 0.8);
+      background: linear-gradient(165deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%);
+      box-shadow: 
+        0 20px 50px -10px rgba(0,0,0,0.15),
+        0 40px 80px -20px var(--accent-glow, rgba(99,102,241,0.5)),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -20px 40px -10px var(--accent-glow, rgba(99,102,241,0.4));
+    }
+    .course-card.active {
+      border-color: rgba(255, 255, 255, 0.95);
+      filter: drop-shadow(0 90px 180px var(--accent-glow, rgba(99,102,241,0.6)));
+    }
+    .course-card > * {
+      position: relative;
+      z-index: 1;
+    }
+    .course-card h3 {
+      font-size: 1.35rem;
+      line-height: 1.2;
+      font-weight: 600;
+      color: #0f172a;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .course-card p {
+      color: #475569;
+      font-size: 1rem;
+      font-weight: 400;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .course-card .card-cta {
+      margin-top: auto;
+      padding-top: 2rem !important;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: #475569;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+    }
+    
+    /* МОДАЛЬНОЕ ОКНО - ОБНОВЛЕННЫЕ СТИЛИ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      /* Стеклянный эффект с прозрачностью 50% */
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(12px) saturate(150%);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* Отступы уменьшены в 3 раза: 7vh / 3 ≈ 2.33vh */
+      padding: 2.33vh 7vw;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.45s ease;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .modal-overlay .modal-shell {
+      backdrop-filter: blur(42px);
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 70px 200px -80px rgba(15, 23, 42, 0.55);
+      width: 100%;
+      max-width: 520px;
+      /* Увеличена max-height для использования освободившегося пространства */
+      max-height: 95vh;
+      border-radius: 24px;
+      transform: translateY(30px) scale(0.97);
+      opacity: 0;
+      transition: transform 0.55s cubic-bezier(0.16, 0.67, 0.4, 1), opacity 0.55s ease;
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .modal-overlay.active .modal-shell {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    
+    /* ВЕРТИКАЛЬНЫЙ LAYOUT */
+    .modal-grid {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+      /* Изменено для корректной работы прокрутки */
+      overflow: visible;
+    }
+    
+    /* ИЗОБРАЖЕНИЕ 16:9 */
+    .modal-image-section {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #0f172a;
+      flex-shrink: 0;
+    }
+    
+    .modal-image-section img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: opacity 0.4s ease;
+      cursor: pointer;
+    }
+    
+    /* Точки-индикаторы */
+    .carousel-dots {
+      position: absolute;
+      bottom: 0.75rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      z-index: 10;
+    }
+    
+    .carousel-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      padding: 0;
+    }
+    
+    .carousel-dot:hover {
+      background: rgba(255, 255, 255, 0.7);
+    }
+    
+    .carousel-dot.active {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.3);
+    }
+    
+    /* Стрелки навигации */
+    .carousel-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 15;
+      opacity: 0;
+    }
+    
+    .modal-image-section:hover .carousel-nav {
+      opacity: 1;
+    }
+    
+    .carousel-nav:hover {
+      background: rgba(0, 0, 0, 0.4);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .carousel-nav.prev {
+      left: 0.75rem;
+    }
+    
+    .carousel-nav.next {
+      right: 0.75rem;
+    }
+    
+    .carousel-nav svg {
+      width: 16px;
+      height: 16px;
+    }
+    
+    /* КОНТЕНТ - компактные размеры для десктопа с прокруткой */
+    .modal-content-section {
+      padding: 1.25rem 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      flex: 1;
+      overflow-y: auto;
+      /* Критически важно для работы прокрутки во flex-контейнере */
+      min-height: 0;
+    }
+    
+    .modal-close-btn {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
+      color: rgba(255, 255, 255, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 20;
+    }
+    
+    .modal-close-btn:hover {
+      background: rgba(0, 0, 0, 0.4);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .modal-close-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+    
+    /* Заголовок - компактный */
+    .modal-header {
+      border-left: 3px solid var(--accent, #6366F1);
+      padding-left: 1rem;
+    }
+    
+    .modal-header .label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 0.25rem;
+    }
+    
+    .modal-header h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+    }
+    
+    /* Описание - компактное */
+    .modal-description {
+      color: #64748b;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    
+    /* GRID преимуществ - компактный */
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.65rem;
+      background: rgba(248, 250, 252, 0.8);
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      transition: all 0.3s ease;
+    }
+    
+    .feature-item:hover {
+      background: rgba(248, 250, 252, 1);
+      border-color: rgba(0, 0, 0, 0.08);
+    }
+    
+    .feature-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent, #6366F1), var(--accent-light, #818cf8));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.85rem;
+    }
+    
+    .feature-text {
+      font-size: 0.8rem;
+      color: #475569;
+      line-height: 1.3;
+      font-weight: 500;
+    }
+    
+    /* Футер с кнопкой внизу */
+    .modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1.5rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      background: rgba(255, 255, 255, 0.9);
+      margin-top: auto;
+      flex-shrink: 0;
+    }
+    
+    .duration-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #64748b;
+      font-weight: 600;
+    }
+    
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.25rem;
+      border-radius: 10px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: white;
+      background: linear-gradient(135deg, var(--accent, #6366F1), var(--accent-dark, #4f46e5));
+      box-shadow: 
+        0 8px 24px -8px var(--accent-glow, rgba(99, 102, 241, 0.5)),
+        0 2px 8px -2px rgba(0, 0, 0, 0.1);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border: none;
+      cursor: pointer;
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 12px 32px -8px var(--accent-glow, rgba(99, 102, 241, 0.6)),
+        0 4px 12px -2px rgba(0, 0, 0, 0.15);
+    }
+    
+    .cta-button svg {
+      width: 14px;
+      height: 14px;
+      transition: transform 0.3s ease;
+    }
+    
+    .cta-button:hover svg {
+      transform: translateX(3px);
+    }
+
+    #contact a {
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      --glow: rgba(99, 102, 241, 0.45);
+      box-shadow: 0 30px 90px -40px var(--glow);
+    }
+    #contact a:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 45px 110px -35px var(--glow);
+    }
+
+    /* Убираем полосы прокрутки везде */
+    .modal-shell::-webkit-scrollbar,
+    .modal-content-section::-webkit-scrollbar,
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    .modal-shell,
+    .modal-content-section,
+    body {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    @media (min-width: 1024px) {
+      .hero-copy p {
+       max-width: 24rem !important;
+      }
+    }
+    
+    @media (max-width: 1024px) {
+      .hero-canvas-wrap {
+        pointer-events: none;
+        height: 520px;
+        transform: translateX(0);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      /* МОБИЛЬНАЯ ВЕРСИЯ - уменьшенные отступы сверху/снизу на 50% */
+      
+        .modal {
+          width: calc(100% - 10px); /* почти на всю ширину */
+          max-width: 100%;
+          max-height: 98vh; /* было 95vh, теперь почти весь экран */
+          min-height: 90vh; /* минимальная высота */
+          margin: 5px; /* было 10px */
+          border-radius: 8px;
+      }
+
+        .modal-overlay {
+          padding: 3.5vh 7vw;
+      }
+      
+      .modal-overlay .modal-shell {
+        max-width: none;
+        width: 100%;
+        max-height: 93vh;
+        border-radius: 20px;
+      }
+      
+      .modal-grid {
+        flex: 1;
+        min-height: 0;
+        overflow: visible;
+      }
+      
+      .modal-image-section {
+        aspect-ratio: 16 / 9;
+        flex-shrink: 0;
+      }
+      
+      .modal-content-section {
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 1.25rem 1.25rem 0.75rem;
+        gap: 0.75rem;
+        min-height: 0;
+      }
+      
+      .modal-header {
+        padding: 10px 12px;
+      }
+      
+      .modal-header .label {
+        font-size: 0.55rem;
+      }
+      
+      .modal-header h3 {
+        font-size: 1.35rem;
+        margin-top: 0.2rem;
+      }
+
+      .modal-body {
+        padding: 8px 12px;
+        flex: 1; /* растягивается на всё доступное пространство */
+      }
+      
+      .modal-description {
+        font-size: 0.85rem;
+        line-height: 1.5;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.4rem;
+      }
+      
+      .feature-item {
+        padding: 0.5rem;
+        gap: 0.4rem;
+      }
+      
+      .feature-icon {
+        width: 26px;
+        height: 26px;
+        font-size: 0.75rem;
+        flex-shrink: 0;
+      }
+      
+      .feature-text {
+        font-size: 0.7rem;
+        line-height: 1.25;
+      }
+      
+      .modal-footer {
+        padding: 0.75rem 1.25rem;
+        flex-direction: row;
+        gap: 0.5rem;
+      }
+      
+      .cta-button {
+        padding: 0.65rem 1rem;
+        font-size: 0.6rem;
+      }
+      
+      .duration-badge {
+        font-size: 0.55rem;
+      }
+      
+      .carousel-nav {
+        opacity: 0.8;
+        width: 32px;
+        height: 32px;
+      }
+      
+      .carousel-nav svg {
+        width: 14px;
+        height: 14px;
+      }
+      
+      .carousel-nav.prev {
+        left: 0.5rem;
+      }
+      
+      .carousel-nav.next {
+        right: 0.5rem;
+      }
+      
+      .modal-close-btn {
+        width: 32px;
+        height: 32px;
+        background: rgba(0, 0, 0, 0.3);
+        top: 0.5rem;
+        right: 0.5rem;
+      }
+      
+      .modal-close-btn svg {
+        width: 16px;
+        height: 16px;
+      }
+      
+      .hero-section {
+        padding-top: 120px !important;
+        padding-bottom: 40px !important;
+      }
+      
+      .hero-copy {
+         text-align: center !important;
+         width: 100% !important;
+         padding: 0 1rem !important;
+      }
+  
+      .hero-copy p {
+         text-align: center !important;
+         margin-left: auto !important;
+         margin-right: auto !important;
+         max-width: 100% !important;
+      }
+      
+      .hero-title {
+        font-size: 3.5rem !important;
+        line-height: 0.95 !important;
+        white-space: normal !important;
+        word-break: keep-all !important;
+        text-align: center !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+     }
+      
+      .hero-canvas-wrap {
+        height: 300px !important;
+        margin-top: 2rem;
+        transform: translateX(0);
+        width: 120%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      
+      .course-card {
+        min-height: 280px;
+        padding: 1.5rem;
+      }
+      
+      .hero-layout {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2rem;
+      }
+      
+      .hero-copy .flex {
+         justify-content: center !important;
+      }
+      
+      .hero-canvas-wrap {
+          height: 220px !important;
+          margin-top: 0.5rem;
+          margin-bottom: 0.3rem;
+          width: 100% !important;
+          left: 0 !important;
+          transform: translateX(0) !important;
+          position: relative !important;
+      }
+      
+      header.glass-panel {
+        width: 94% !important;
+        max-width: 94% !important;
+        padding: 12px 20px !important;
+      }
+      
+      header .mono-label {
+        font-size: 0.4rem !important;
+        letter-spacing: 0.25em !important;
+      }
+      
+      header nav {
+        gap: 0.75rem !important;
+      }
+      
+      header nav a {
+        font-size: 0.7rem !important;
+        letter-spacing: 0.15em !important;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .modal-overlay {
+        padding: 2.5vh 4vw;
+      }
+      
+      .modal-overlay .modal-shell {
+        max-height: 95vh;
+      }
+      
+      .modal-content-section {
+        padding: 1rem 1rem 0.5rem;
+        gap: 0.6rem;
+        min-height: 0;
+      }
+      
+      .modal-header h3 {
+        font-size: 1.2rem;
+      }
+      
+      .modal-description {
+        font-size: 0.8rem;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 0.35rem;
+      }
+      
+      .feature-item {
+        padding: 0.45rem;
+        gap: 0.4rem;
+      }
+      
+      .feature-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 0.7rem;
+      }
+      
+      .feature-text {
+        font-size: 0.7rem;
+      }
+      
+      .modal-footer {
+        padding: 0.65rem 1rem;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .duration-badge {
+        order: 2;
+        font-size: 0.5rem;
+      }
+      
+      .cta-button {
+        order: 1;
+        width: 100%;
+        justify-content: center;
+        padding: 0.6rem;
+        font-size: 0.55rem;
+      }
+    }
+  </style>
+</head>
+<body class="relative">
+  <div class="gradient gradient-indigo"></div>
+  <div class="gradient gradient-burgundy"></div>
+  <div class="grid-overlay"></div>
+  <div class="noise-overlay"></div>
+
+  <header class="glass-panel fixed top-6 left-1/2 -translate-x-1/2 w-[92%] max-w-5xl z-40 rounded-full px-8 py-4 flex items-center justify-between">
+    <span class="font-semibold mono-label text-slate-400 tracking-[0.3em]">HEIST AI</span>
+    <nav class="flex gap-6 text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">
+      <a href="#courses" class="hover:text-slate-900 transition">Курсы</a>
+      <a href="#contact" class="hover:text-slate-900 transition">Контакты</a>
+    </nav>
+  </header>
+
+  <main class="relative z-10">
+    <section class="hero-section relative overflow-visible">
+      <div class="hero-layout relative max-w-6xl mx-auto flex flex-col lg:flex-row items-start lg:items-center px-6 lg:px-12">
+        <div class="hero-copy relative z-10 space-y-8 w-full lg:w-1/2">
+          <p class="mono-label text-slate-500 tracking-[0.4em] text-[10px]">Fintech Intelligence Studio</p>
+          <h1 class="hero-title tracking-tighter font-black text-gray-1000 mb-10">HEIST AI</h1>
+          <p class="text-lg text-gray-700 max-w-xl leading-relaxed break-words">Освой технологии будущего и начни зарабатывать с искусственным интеллектом уже сегодня. Мы создаем продуктовых инженеров нового поколения.</p>
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button class="hero-pill">Realtime Labs</button>
+            <button class="hero-pill">AI Revenue Ops</button>
+          </div>
+        </div>
+        <div class="hero-canvas-wrap w-full lg:w-1/2 order-1 lg:order-2">
+          <canvas id="hero-3d"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section id="courses" class="py-28 lg:py-36">
+      <div class="w-full max-w-6xl mx-auto px-6 lg:px-12">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+          <div>
+            <p class="mono-label text-slate-500 tracking-[0.4em] text-[10px]">learning drops</p>
+            <h2 class="tracking-tighter text-4xl sm:text-5xl lg:text-6xl font-semibold mt-4">Курсы, которые меняют игру</h2>
+          </div>
+          <p class="text-slate-500 max-w-xl">Каждая программа — это продуктовый спринт с фокусом на монетизацию. Выберите курс, чтобы раскрыть детали.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <button type="button" class="course-card text-left" data-course="n8n" style="--accent-color:#881337; --accent-glow: rgba(136,19,55,0.45);">
+            <span class="mono-label text-slate-500 tracking-[0.4em] text-[10px]">n8n</span>
+            <h3 class="text-2xl font-semibold mt-4">n8n АВТОМАТИЗАЦИЯ</h3>
+            <p class="text-slate-600 mt-5">Создание ИИ агентов для автоматизации бизнеса.</p>
+            <div class="mt-10 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.4em] text-slate-500">
+              <span>Открыть</span>
+              <span aria-hidden="true">↗</span>
+            </div>
+          </button>
+          <button type="button" class="course-card text-left" data-course="ai-base" style="--accent-color:#4C51BF; --accent-glow: rgba(76,81,191,0.45);">
+            <span class="mono-label text-slate-500 tracking-[0.4em] text-[10px]">AI</span>
+            <h3 class="text-2xl font-semibold mt-4">БАЗА ИИ</h3>
+            <p class="text-slate-600 mt-5">Общие базовые знания по ИИ для заработка.</p>
+            <div class="mt-10 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.4em] text-slate-500">
+              <span>Открыть</span>
+              <span aria-hidden="true">↗</span>
+            </div>
+          </button>
+          <button type="button" class="course-card text-left" data-course="vibe" style="--accent-color:#5B6232; --accent-glow: rgba(91,98,50,0.45);">
+            <span class="mono-label text-slate-500 tracking-[0.4em] text-[10px]">CODE</span>
+            <h3 class="text-2xl font-semibold mt-4">ВАЙБКОДИНГ</h3>
+            <p class="text-slate-600 mt-5">Как написать любой код без команды программистов.</p>
+            <div class="mt-10 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.4em] text-slate-500">
+              <span>Открыть</span>
+              <span aria-hidden="true">↗</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="py-28 lg:py-36">
+      <div class="w-full max-w-4xl mx-auto px-6 lg:px-12 text-center space-y-12">
+        <div>
+          <p class="mono-label text-slate-500 tracking-[0.4em] text-[10px]">connect</p>
+          <h2 class="tracking-tighter text-4xl sm:text-5xl font-semibold mt-4">Свяжись с HEIST AI</h2>
+          <p class="text-slate-500 mt-4">Нам важны точные вопросы и быстрые ответы. Выбери канал, который подходит тебе.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-6 justify-center">
+          <a href="https://web.telegram.org/a/#8543225909" target="_blank" class="w-full sm:w-auto px-10 py-5 rounded-3xl bg-white text-slate-900 font-semibold uppercase tracking-[0.4em] border border-white" style="--glow: rgba(99,102,241,0.45);">Telegram</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- МОДАЛЬНОЕ ОКНО -->
+  <div id="course-modal" class="modal-overlay">
+    <div class="modal-shell relative">
+      <button id="course-modal-close" class="modal-close-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      
+      <div class="modal-grid" id="modal-content" style="--accent:#6366F1; --accent-light:#818cf8; --accent-dark:#4f46e5; --accent-glow:rgba(99,102,241,0.5);">
+        <!-- Верхняя часть - изображение 16:9 -->
+        <div class="modal-image-section">
+          <img id="modal-image" src="" alt="Превью курса">
+          <button type="button" class="carousel-nav prev" id="carousel-prev" aria-label="Предыдущий слайд">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 18l-6-6 6-6"/>
+            </svg>
+          </button>
+          <button type="button" class="carousel-nav next" id="carousel-next" aria-label="Следующий слайд">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </button>
+          <div class="carousel-dots" id="carousel-dots">
+            <!-- Точки будут добавлены через JS -->
+          </div>
+        </div>
+        
+        <!-- Контент -->
+        <div class="modal-content-section">
+          <div class="modal-header">
+            <div class="label" id="modal-label">n8n</div>
+            <h3 id="modal-title">АВТОМАТИЗАЦИЯ</h3>
+          </div>
+          
+          <p class="modal-description" id="modal-description">
+            Создайте свою армию цифровых сотрудников. Агенты сами ищут клиентов, обрабатывают заявки и закрывают сделки.
+          </p>
+          
+          <div class="features-grid" id="modal-features">
+            <!-- Фичи будут добавлены через JS -->
+          </div>
+        </div>
+        
+        <!-- Футер с кнопкой внизу -->
+        <div class="modal-footer">
+          <div class="duration-badge" id="modal-duration">5 недель интенсив</div>
+          <a href="https://web.telegram.org/a/#8543225909" target="_blank" id="modal-cta" class="cta-button">
+            <span>Начать обучение</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+      }
+    }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+    import { RoomEnvironment } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/environments/RoomEnvironment.js';
+    import { ImprovedNoise } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/math/ImprovedNoise.js';
+
+    const canvas = document.getElementById('hero-3d');
+    let scene, camera, renderer;
+    const cubeGroup = new THREE.Group();
+    const cubes = [];
+    const nodes = [];
+    const linePairs = [];
+    let connectors;
+    let glowSystem;
+    const clock = new THREE.Clock();
+    const simplex = new ImprovedNoise();
+
+    function initThree() {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
+      camera.position.set(0, 0, 8);
+
+      renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.15;
+      resizeRenderer();
+
+      const pmrem = new THREE.PMREMGenerator(renderer);
+      const envTexture = pmrem.fromScene(new RoomEnvironment(), 0.06).texture;
+      scene.environment = envTexture;
+      scene.background = null;
+      pmrem.dispose();
+
+      const hemi = new THREE.HemisphereLight(0xe0edff, 0x0f172a, 1);
+      const directional = new THREE.DirectionalLight(0xffffff, 1);
+      directional.position.set(4, 6, 4);
+      const bluePulse = new THREE.PointLight(0x2563eb, 4, 10);
+      bluePulse.position.set(-2.5, 1.5, 2.5);
+      scene.add(hemi, directional, bluePulse);
+
+      scene.add(cubeGroup);
+      createFloatingArchitecture(envTexture);
+      const lineCountPerNode = new Array(nodes.length).fill(0);
+      const maxLinesPerNode = 3;
+
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dist = nodes[i].base.distanceTo(nodes[j].base);
+          if (dist < 1.2 && lineCountPerNode[i] < maxLinesPerNode && lineCountPerNode[j] < maxLinesPerNode) {
+            linePairs.push([i, j]);
+            lineCountPerNode[i]++;
+            lineCountPerNode[j]++;
+          }
+        }
+      }
+
+      createGlowParticles();
+      animate();
+      window.addEventListener('resize', onResize);
+    }
+
+    function createFloatingArchitecture(envTexture) {
+      const cubeGeometry = new THREE.BoxGeometry(1, 1, 0.25);
+      const glassMaterial = new THREE.MeshPhysicalMaterial({
+        color: 0x1E293B,
+        transmission: 50,
+        opacity: 1,
+        roughness: 0.2,
+        metalness: 0.84,
+        thickness: 3,
+        envMap: scene.environment,
+        envMapIntensity: 1.6,
+        clearcoat: 1,
+        clearcoatRoughness: 0.05,
+        ior: 1.4,
+        attenuationColor: new THREE.Color(0x0A1128),
+        attenuationDistance: 2.5
+      });
+
+      const nodeCount = 15;
+      for (let i = 0; i < nodeCount; i++) {
+        const base = randomPointInSphere(1.7);
+        const mesh = new THREE.Mesh(cubeGeometry, glassMaterial.clone());
+        const scale = 0.4 + Math.random() * 0.45;
+        mesh.scale.set(scale, scale * (0.4 + Math.random() * 0.9), scale * (1 + Math.random() * 0.6));
+        mesh.position.copy(base);
+        mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+        cubeGroup.add(mesh);
+        nodes.push({ base, position: base.clone(), offset: Math.random() * 100, mesh });
+        cubes.push(mesh);
+      }
+
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dist = nodes[i].base.distanceTo(nodes[j].base);
+          if (dist < 1.4) {
+            linePairs.push([i, j]);
+          }
+        }
+      }
+
+      const linePositions = new Float32Array(linePairs.length * 6);
+      const connectorGeometry = new THREE.BufferGeometry();
+      connectorGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+      const connectorMaterial = new THREE.LineBasicMaterial({
+        color: 0xD4AF37,
+        transparent: true,
+        opacity: 0.4
+      });
+      connectors = new THREE.LineSegments(connectorGeometry, connectorMaterial);
+      cubeGroup.add(connectors);
+    }
+
+    function createGlowParticles() {
+      const count = 250;
+      const positions = new Float32Array(count * 3);
+      const speeds = new Float32Array(count);
+      for (let i = 0; i < count; i++) {
+        const point = randomPointInSphere(2);
+        const idx = i * 3;
+        positions[idx] = point.x;
+        positions[idx + 1] = point.y;
+        positions[idx + 2] = point.z;
+        speeds[i] = Math.random() * Math.PI * 2;
+      }
+      const glowGeometry = new THREE.BufferGeometry();
+      glowGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      glowGeometry.setAttribute('speed', new THREE.BufferAttribute(speeds, 1));
+      const glowMaterial = new THREE.PointsMaterial({
+        color: 0x6366F1,
+        size: 0.5,
+        transparent: true,
+        opacity: 0.2,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending
+      });
+      glowSystem = new THREE.Points(glowGeometry, glowMaterial);
+      cubeGroup.add(glowSystem);
+    }
+
+    function randomPointInSphere(radius) {
+      const u = Math.random();
+      const v = Math.random();
+      const theta = 2 * Math.PI * u;
+      const phi = Math.acos(2 * v - 1);
+      const r = radius * Math.cbrt(Math.random());
+      const x = r * Math.sin(phi) * Math.cos(theta);
+      const y = r * Math.sin(phi) * Math.sin(theta);
+      const z = r * Math.cos(phi);
+      return new THREE.Vector3(x, y, z);
+    }
+     
+    function animate() {
+      requestAnimationFrame(animate);
+      const time = clock.getElapsedTime();
+
+      nodes.forEach((node, idx) => {
+        const nx = simplex.noise(node.base.x + time * 0.2, node.base.y, node.base.z) * 0.2;
+        const ny = simplex.noise(node.base.y, node.base.z + time * 0.2, node.base.x) * 0.2;
+        const nz = simplex.noise(node.base.z, node.base.x, node.base.y + time * 0.2) * 0.2;
+        node.position.set(
+          node.base.x + nx + Math.sin(time * 0.6 + node.offset) * 0.38,
+          node.base.y + ny + Math.cos(time * 0.7 + node.offset) * 0.38,
+          node.base.z + nz
+        );
+        node.mesh.position.copy(node.position);
+        node.mesh.rotation.x += 0.005;
+        node.mesh.rotation.y += 0.005;
+        cubeGroup.rotation.y += 0.0001;
+      });
+
+      if (connectors) {
+        const attr = connectors.geometry.attributes.position;
+        linePairs.forEach((pair, idx) => {
+          const start = nodes[pair[0]].position;
+          const end = nodes[pair[1]].position;
+          const offset = idx * 6;
+          attr.array[offset] = start.x;
+          attr.array[offset + 1] = start.y;
+          attr.array[offset + 2] = start.z;
+          attr.array[offset + 3] = end.x;
+          attr.array[offset + 4] = end.y;
+          attr.array[offset + 5] = end.z;
+        });
+        attr.needsUpdate = true;
+        connectors.material.opacity = 0.4 + 0.25 * (Math.sin(time * 2.4) + 1) * 0.5;
+      }
+
+      if (glowSystem) {
+        const posAttr = glowSystem.geometry.attributes.position;
+        const speedAttr = glowSystem.geometry.attributes.speed;
+        for (let i = 0; i < posAttr.array.length; i += 3) {
+          const seed = speedAttr.array[i / 3];
+          posAttr.array[i + 1] += Math.sin(time * 1 + seed) * 0.002;
+        }
+        glowSystem.material.opacity = 0.5 + 0.4 * (Math.sin(time * 1) + 1) * 0.5;
+      }
+
+      cubeGroup.rotation.y += 0.0025;
+      cubeGroup.rotation.x = Math.sin(time * 0.25) * 0.12;
+      renderer.render(scene, camera);
+    }
+
+    function resizeRenderer() {
+      if (!renderer) return;
+      const bounds = canvas.parentElement.getBoundingClientRect();
+      renderer.setSize(bounds.width, bounds.height);
+      camera.aspect = bounds.width / bounds.height;
+      camera.updateProjectionMatrix();
+    }
+
+    function updateSceneLayout() {
+      if (!cubeGroup) return;
+      const isDesktop = window.innerWidth >= 1024;
+      cubeGroup.position.x = isDesktop ? 0 : 0;
+    }
+
+    function onResize() {
+      resizeRenderer();
+      updateSceneLayout();
+    }
+
+    initThree();
+
+    // Lenis smooth scroll
+    let lenisInstance = null;
+    function initLenis() {
+      if (!window.Lenis) return;
+      lenisInstance = new window.Lenis({
+        duration: 1.2,
+        smoothWheel: true,
+        lerp: 0.08
+      });
+      function raf(time) {
+        lenisInstance.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+    }
+    initLenis();
+
+    // Course modal functionality
+    const courses = {
+      n8n: {
+        label: 'n8n',
+        title: 'АВТОМАТИЗАЦИЯ',
+        accent: '#881337',
+        accentLight: '#be123c',
+        accentDark: '#6b0f2b',
+        description: 'Создайте свою армию цифровых сотрудников. Агенты сами ищут клиентов, обрабатывают заявки и закрывают сделки — пока вы спите.',
+        features: [
+          { icon: '⚙️', text: 'Low-code пайплайны с GPT-4' },
+          { icon: '🎯', text: 'Автопоиск клиентов 24/7' },
+          { icon: '🔗', text: 'Интеграция 100+ сервисов' },
+          { icon: '📊', text: 'Деплой и мониторинг агентов' }
+        ],
+        duration: '2 недели интенсив',
+        images: ['n8n1.png', 'n8n4.png', 'n8n5.png', 'n8n6.png', 'n8n2.png', 'n8n7.png', 'n8n3.png'],
+      },
+      'ai-base': {
+        label: 'AI BASE',
+        title: 'БАЗА ИИ',
+        accent: '#4C51BF',
+        accentLight: '#6366f1',
+        accentDark: '#3730a3',
+        description: 'Освойте все ключевые модели и инструменты ИИ за 4 недели. От теории к первым деньгам — структурированный путь в индустрию.',
+        features: [
+          { icon: '🧠', text: 'GPT, Claude, Llama, Mistral' },
+          { icon: '✍️', text: 'Prompt engineering на практике' },
+          { icon: '🚀', text: 'Go-to-market для AI-сервисов' },
+          { icon: '📈', text: 'Аналитика данных с ИИ' }
+        ],
+        duration: 'Foundation',
+        images: [
+                'zn1.png', 'zn2.png', 'zn3.png', 'zn4.png', 'zn5.png', 'zn6.png'
+                
+            ],
+
+      },
+      vibe: {
+        label: 'Vibecoding',
+        title: 'ВАЙБКОДИНГ',
+        accent: '#5B6232',
+        accentLight: '#84923a',
+        accentDark: '#3d4122',
+        description: 'Создавайте production-ready продукты в одиночку. MVP за выходные, без команды программистов — только вы и ИИ.',
+        features: [
+          { icon: '⚡', text: 'Rapid prototyping за выходные' },
+          { icon: '🎨', text: 'WebGL и сложные анимации' },
+          { icon: '🛠️', text: 'Запуск MVP без команды' },
+          { icon: '☁️', text: 'Деплой на серверы' }
+        ],
+        duration: 'Creator Mode',
+        images: [
+                'vbk1.png',
+                'vbk3.png',
+                'vbk6.png',
+                'vbk5.png',
+                'vbk2.png',
+                'vbk4.png',
+            ],
+      }
+    };
+
+    const cards = document.querySelectorAll('.course-card');
+    const modal = document.getElementById('course-modal');
+    const modalClose = document.getElementById('course-modal-close');
+    const modalContent = document.getElementById('modal-content');
+    const modalLabel = document.getElementById('modal-label');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDescription = document.getElementById('modal-description');
+    const modalFeatures = document.getElementById('modal-features');
+    const modalDuration = document.getElementById('modal-duration');
+    const carouselDotsContainer = document.getElementById('carousel-dots');
+    const carouselPrev = document.getElementById('carousel-prev');
+    const carouselNext = document.getElementById('carousel-next');
+    const modalCTA = document.getElementById('modal-cta');
+    const modalImage = document.getElementById('modal-image');
+
+    let activeCourse = null;
+    let currentSlide = 0;
+    let autoSlideInterval = null;
+
+    function hexToRgba(hex, alpha = 1) {
+      const sanitized = hex.replace('#', '');
+      const bigint = parseInt(sanitized, 16);
+      const r = (bigint >> 16) & 255;
+      const g = (bigint >> 8) & 255;
+      const b = bigint & 255;
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+
+    function renderCourse(key) {
+      const data = courses[key];
+      if (!data) return;
+      
+      modalContent.style.setProperty('--accent', data.accent);
+      modalContent.style.setProperty('--accent-light', data.accentLight);
+      modalContent.style.setProperty('--accent-dark', data.accentDark);
+      modalContent.style.setProperty('--accent-glow', hexToRgba(data.accent, 0.5));
+      
+      modalLabel.textContent = data.label;
+      modalTitle.textContent = data.title;
+      modalDescription.textContent = data.description;
+      modalDuration.textContent = data.duration;
+      
+      modalFeatures.innerHTML = '';
+      data.features.forEach(feature => {
+        const item = document.createElement('div');
+        item.className = 'feature-item';
+        item.innerHTML = `
+          <div class="feature-icon">${feature.icon}</div>
+          <div class="feature-text">${feature.text}</div>
+        `;
+        modalFeatures.appendChild(item);
+      });
+
+      carouselDotsContainer.innerHTML = '';
+      data.images.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', `Слайд ${index + 1}`);
+        dot.addEventListener('click', (e) => {
+          e.stopPropagation();
+          currentSlide = index;
+          updateSlide(data);
+          startAutoSlide(data);
+        });
+        carouselDotsContainer.appendChild(dot);
+      });
+
+      currentSlide = 0;
+      updateSlide(data);
+      startAutoSlide(data);
+    }
+
+    function updateSlide(data) {
+      modalImage.src = data.images[currentSlide];
+      
+      const dots = carouselDotsContainer.querySelectorAll('.carousel-dot');
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+      });
+    }
+
+    function nextSlide(data) {
+      currentSlide = (currentSlide + 1) % data.images.length;
+      updateSlide(data);
+    }
+
+    function startAutoSlide(data) {
+      stopAutoSlide();
+      autoSlideInterval = setInterval(() => {
+        nextSlide(data);
+      }, 4000);
+    }
+
+    function stopAutoSlide() {
+      if (autoSlideInterval) {
+        clearInterval(autoSlideInterval);
+        autoSlideInterval = null;
+      }
+    }
+
+    function openModal(key) {
+      activeCourse = key;
+      renderCourse(key);
+      modal.classList.add('active');
+      
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      
+      if (lenisInstance) lenisInstance.stop();
+    }
+
+    function closeModal() {
+      modal.classList.remove('active');
+      
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      document.body.classList.remove('overflow-hidden');
+      
+      cards.forEach(card => card.classList.remove('active'));
+      stopAutoSlide();
+      if (lenisInstance) lenisInstance.start();
+    }
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const key = card.dataset.course;
+        cards.forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        openModal(key);
+      });
+    });
+
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+    
+    modalClose.addEventListener('click', closeModal);
+    
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && modal.classList.contains('active')) {
+        closeModal();
+      }
+      if (modal.classList.contains('active') && activeCourse) {
+        const data = courses[activeCourse];
+        if (event.key === 'ArrowLeft') {
+          currentSlide = (currentSlide - 1 + data.images.length) % data.images.length;
+          updateSlide(data);
+          startAutoSlide(data);
+        } else if (event.key === 'ArrowRight') {
+          currentSlide = (currentSlide + 1) % data.images.length;
+          updateSlide(data);
+          startAutoSlide(data);
+        }
+      }
+    });
+
+    carouselPrev.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!activeCourse) return;
+      const data = courses[activeCourse];
+      currentSlide = (currentSlide - 1 + data.images.length) % data.images.length;
+      updateSlide(data);
+      startAutoSlide(data);
+    });
+
+    carouselNext.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!activeCourse) return;
+      const data = courses[activeCourse];
+      currentSlide = (currentSlide + 1) % data.images.length;
+      updateSlide(data);
+      startAutoSlide(data);
+    });
+
+    modalImage.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!activeCourse) return;
+      const data = courses[activeCourse];
+      currentSlide = (currentSlide + 1) % data.images.length;
+      updateSlide(data);
+      startAutoSlide(data);
+    });
+
+    let touchStartX = 0;
+    modalImage.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+
+    modalImage.addEventListener('touchend', (e) => {
+      if (!activeCourse) return;
+      const touchEndX = e.changedTouches[0].clientX;
+      const deltaX = touchEndX - touchStartX;
+      const data = courses[activeCourse];
+      
+      if (Math.abs(deltaX) > 50) {
+        if (deltaX < 0) {
+          currentSlide = (currentSlide + 1) % data.images.length;
+        } else {
+          currentSlide = (currentSlide - 1 + data.images.length) % data.images.length;
+        }
+        updateSlide(data);
+        startAutoSlide(data);
+      }
+    }, { passive: true });
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 100,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
